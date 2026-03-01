@@ -195,6 +195,7 @@ export default function App() {
           <a href="#home">Home</a>
           <a href="#about">About Us</a>
           <a href="#services">Our Services</a>
+          <a href="#projects">Projects</a>
           <a href="#tech-stack">Tech Stack</a>
           <a href="#team">Our Team</a>
           <a href="#contact">Contact</a>
@@ -264,26 +265,6 @@ export default function App() {
               </div>
             </div>
           </div>
-          {/* <div className="about-projects-col">
-            <h3 className="about-projects-title">Featured Projects</h3>
-            <div className="about-projects-list">
-              <div className="about-project-card">
-                <div className="project-tag">IoT + AI</div>
-                <h4>SmartFarm Monitor</h4>
-                <p>A real-time IoT monitoring dashboard for agricultural environments with AI-powered anomaly detection.</p>
-              </div>
-              <div className="about-project-card">
-                <div className="project-tag">Web App</div>
-                <h4>BizFlow ERP</h4>
-                <p>A full-featured enterprise resource planning system built with Spring Boot and React for a mid-size logistics company.</p>
-              </div>
-              <div className="about-project-card">
-                <div className="project-tag">Desktop App</div>
-                <h4>MediDesk</h4>
-                <p>A cross-platform clinic management desktop application with offline-first capabilities.</p>
-              </div>
-            </div>
-          </div> */}
         </div>
       </section>
 
@@ -302,6 +283,85 @@ export default function App() {
               <a href="#contact" className="service-link">Get Started <span>→</span></a>
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* Our Projects */}
+      <section id="projects">
+        <div className="section-header reveal">
+          <h2 className="section-title">Our Projects</h2>
+          <p className="section-subtitle">
+            Real work we’ve delivered — from IoT robotics to full-stack platforms.
+          </p>
+        </div>
+
+        <div className="projects-grid reveal">
+          <div className="project-card">
+            <div className="project-top">
+              <span className="project-tag">IoT + Web</span>
+              <h3 className="project-title">Librioo Smart Library Robot</h3>
+              <p className="project-desc">
+                A smart library assistant robot with line-following navigation and an admin panel to manage books, members, and shelf routing.
+              </p>
+            </div>
+
+            <div className="project-tech">
+              <span className="project-pill">ESP32</span>
+              <span className="project-pill">Arduino</span>
+              <span className="project-pill">Spring Boot</span>
+              <span className="project-pill">MySQL</span>
+              <span className="project-pill">React</span>
+            </div>
+
+            <div className="project-actions">
+              <a className="project-link" href="#contact">Work With Us <span>→</span></a>
+              <a className="project-link ghost" href="#services">View Services <span>→</span></a>
+            </div>
+          </div>
+
+          <div className="project-card">
+            <div className="project-top">
+              <span className="project-tag">Web App</span>
+              <h3 className="project-title">Coming Soon...</h3>
+              <p className="project-desc">
+              </p>
+            </div>
+
+            <div className="project-tech">
+              <span className="project-pill"></span>
+              <span className="project-pill"></span>
+              <span className="project-pill"></span>
+              <span className="project-pill"></span>
+              <span className="project-pill"></span>
+            </div>
+
+            <div className="project-actions">
+              <a className="project-link" href="#contact"><span>→</span></a>
+              <a className="project-link ghost" href="#tech-stack"><span>→</span></a>
+            </div>
+          </div>
+
+          <div className="project-card">
+            <div className="project-top">
+              <span className="project-tag">IoT + AI</span>
+              <h3 className="project-title">Coming Soon...</h3>
+              <p className="project-desc">
+              </p>
+            </div>
+
+            <div className="project-tech">
+              <span className="project-pill"></span>
+              <span className="project-pill"></span>
+              <span className="project-pill"></span>
+              <span className="project-pill"></span>
+              <span className="project-pill"></span>
+            </div>
+
+            <div className="project-actions">
+              <a className="project-link" href="#contact">Start a Project <span>→</span></a>
+              <a className="project-link ghost" href="#reviews">Reviews <span>→</span></a>
+            </div>
+          </div>
         </div>
       </section>
 
