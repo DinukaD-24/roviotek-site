@@ -232,7 +232,7 @@ export default function App() {
             <div className="about-stats">
               <div className="about-stat">
                 <span className="stat-number">
-                  <CountUp end={10} 
+                  <CountUp end={3} 
                   duration={2} 
                   suffix="+" 
                   enableScrollSpy={true}
@@ -321,45 +321,45 @@ export default function App() {
 
           <div className="project-card">
             <div className="project-top">
-              <span className="project-tag">Web App</span>
-              <h3 className="project-title">Coming Soon...</h3>
+              <span className="project-tag">Desktop Application</span>
+              <h3 className="project-title">Hotel Management System</h3>
               <p className="project-desc">
+                This is a comprehensive hotel management system designed to streamline room bookings, check-ins, and check-outs. It allows easy management of room inventory and guest information, ensuring efficient operations and a seamless experience for both staff and guests.
               </p>
             </div>
 
             <div className="project-tech">
-              <span className="project-pill"></span>
-              <span className="project-pill"></span>
-              <span className="project-pill"></span>
-              <span className="project-pill"></span>
-              <span className="project-pill"></span>
+              <span className="project-pill">Java</span>
+              <span className="project-pill">Swing</span>
+              <span className="project-pill">MySQL</span>
             </div>
 
             <div className="project-actions">
-              <a className="project-link" href="#contact"><span>→</span></a>
-              <a className="project-link ghost" href="#tech-stack"><span>→</span></a>
+              <a className="project-link" href="#contact">Work with us<span>→</span></a>
+              <a className="project-link ghost" href="#services">View Services<span>→</span></a>
             </div>
           </div>
 
           <div className="project-card">
             <div className="project-top">
-              <span className="project-tag">IoT + AI</span>
-              <h3 className="project-title">Coming Soon...</h3>
+              <span className="project-tag">Web Application</span>
+              <h3 className="project-title">LibraryNet</h3>
               <p className="project-desc">
+                LibraryNet is an online library platform that allows users to read and borrow books digitally. Borrowed books are stored in your profile for a set period, giving you seamless access to your reading materials anytime, anywhere.
               </p>
             </div>
 
             <div className="project-tech">
-              <span className="project-pill"></span>
-              <span className="project-pill"></span>
-              <span className="project-pill"></span>
-              <span className="project-pill"></span>
-              <span className="project-pill"></span>
+              <span className="project-pill">Java</span>
+              <span className="project-pill">Springboot</span>
+              <span className="project-pill">Hibernate</span>
+              <span className="project-pill">Html/CSS</span>
+              <span className="project-pill">Postgresql</span>
             </div>
 
             <div className="project-actions">
-              <a className="project-link" href="#contact">Start a Project <span>→</span></a>
-              <a className="project-link ghost" href="#reviews">Reviews <span>→</span></a>
+              <a className="project-link" href="#contact">Work with us <span>→</span></a>
+              <a className="project-link ghost" href="#services">Our Services <span>→</span></a>
             </div>
           </div>
         </div>
