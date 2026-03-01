@@ -187,7 +187,7 @@ export default function App() {
 
       {/* Nav */}
       <nav className={scrolled ? "scrolled" : ""}>
-        <a href="#" className="nav-logo">
+        <a href="#home" className="nav-logo">
           <img src={logoImg} alt="RovioTek Logo" className="nav-logo-img" />
         </a>
         <div className="nav-links">
@@ -276,7 +276,7 @@ export default function App() {
               <div className="service-icon"><img src={s.img} alt={s.title} /></div>
               <h3 className="service-title">{s.title}</h3>
               <p className="service-desc">{s.desc}</p>
-              <a href="#" className="service-link">Get Started <span>→</span></a>
+              <a href="#contact" className="service-link">Get Started <span>→</span></a>
             </div>
           ))}
         </div>
