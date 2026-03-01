@@ -73,43 +73,43 @@ const team = [
     name: "Sandun Sulakshana",
     role: "Founder, Backend Developer",
     avatar: sandunImg,
-    socials: { linkedin: "https://linkedin.com", facebook: "https://facebook.com", instagram: "https://instagram.com" }
+    socials: { linkedin: "https://www.linkedin.com/in/sandun-sulakshana-465188328/", github: "https://github.com/sandun80"}
   },
   {
     name: "Tharana Hasintha",
     role: "Project Manager, Full Stack Developer",
     avatar: tharanaImg,
-    socials: { linkedin: "https://linkedin.com", facebook: "https://facebook.com", instagram: "https://instagram.com" }
+    socials: { linkedin: "https://www.linkedin.com/in/tharanahasintha/", facebook: "https://facebook.com", instagram: "https://instagram.com" }
   },
   {
     name: "Dinuka Daksitha",
     role: "Frontend Developer",
     avatar: dinukaImg,
-    socials: { linkedin: "https://linkedin.com", facebook: "https://facebook.com", instagram: "https://instagram.com" }
+    socials: { linkedin: "https://www.linkedin.com/in/dinuka-ilangakoon-3ab81a335/", facebook: "https://facebook.com", instagram: "https://instagram.com" }
   },
   {
     name: "Nimuthu Sipsara",
     role: "IOT Developer, AI Integration Developer",
     avatar: nimuthuImg,
-    socials: { linkedin: "https://linkedin.com", facebook: "https://facebook.com", instagram: "https://instagram.com" }
+    socials: { linkedin: "https://www.linkedin.com/in/nimuthusw/", facebook: "https://facebook.com", instagram: "https://instagram.com" }
   },
   {
     name: "Pasindu Tharaka",
     role: "Frontend Developer",
     avatar: pasinduImg,
-    socials: { linkedin: "https://linkedin.com", facebook: "https://facebook.com", instagram: "https://instagram.com" }
+    socials: { linkedin: "https://www.linkedin.com/in/pasindu-tharaka-1a660a333/", facebook: "https://facebook.com", instagram: "https://instagram.com" }
   },
   {
     name: "Kavindu Dilhara",
     role: "Backend Developer",
     avatar: kavinduImg,
-    socials: { linkedin: "https://linkedin.com", facebook: "https://facebook.com", instagram: "https://instagram.com" }
+    socials: { linkedin: "https://www.linkedin.com/in/kavindu-jayasinghe-877174335/", facebook: "https://facebook.com", instagram: "https://instagram.com" }
   },
   {
     name: "Anuruddha Shanaka",
     role: "UI Designer",
     avatar: anuruddhaImg,
-    socials: { linkedin: "https://linkedin.com", facebook: "https://facebook.com", instagram: "https://instagram.com" }
+    socials: { linkedin: "https://www.linkedin.com/in/anuruddha-shanaka-687056380/", facebook: "https://facebook.com", instagram: "https://instagram.com" }
   }
 ];
 
