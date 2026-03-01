@@ -640,6 +640,52 @@ section:nth-child(even) {
   scroll-margin-top: 90px;
 }
 
+/* ===== Horizontal Projects Scroll ===== */
+.projects-scroll {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  gap: 24px;
+  overflow-x: auto;
+  padding: 10px 4px 18px;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+
+  /* subtle fade edges feel (optional) */
+  mask-image: linear-gradient(to right, transparent 0, black 6%, black 94%, transparent 100%);
+}
+
+.projects-scroll::-webkit-scrollbar {
+  height: 10px;
+}
+.projects-scroll::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 999px;
+}
+.projects-scroll::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.18);
+  border-radius: 999px;
+}
+.projects-scroll::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.28);
+}
+
+/* Each card fixed width so it scrolls horizontally */
+.projects-scroll .project-card {
+  flex: 0 0 380px;      /* card width */
+  scroll-snap-align: start;
+}
+
+/* Responsive: a bit narrower on mobile */
+@media (max-width: 520px) {
+  .projects-scroll .project-card {
+    flex-basis: 86vw;
+  }
+}
+
+/* Keep anchor scrolling from hiding behind fixed nav */
+#projects { scroll-margin-top: 90px; }
+
 /* Tech Stack */
 .tech-grid {
   display: grid;

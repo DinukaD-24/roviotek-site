@@ -295,7 +295,7 @@ export default function App() {
           </p>
         </div>
 
-        <div className="projects-grid reveal">
+        <div className="projects-scroll reveal">
           <div className="project-card">
             <div className="project-top">
               <span className="project-tag">IoT + Web</span>
@@ -360,6 +360,26 @@ export default function App() {
             <div className="project-actions">
               <a className="project-link" href="#contact">Work with us <span>→</span></a>
               <a className="project-link ghost" href="#services">Our Services <span>→</span></a>
+            </div>
+          </div>
+
+          <div className="project-card">
+            <div className="project-top">
+              <span className="project-tag">IOT + AI</span>
+              <h3 className="project-title">Coming Soon...</h3>
+              <p className="project-desc">
+              </p>
+            </div>
+
+            <div className="project-tech">
+              <span className="project-pill"></span>
+              <span className="project-pill"></span>
+              <span className="project-pill"></span>
+            </div>
+
+            <div className="project-actions">
+              <a className="project-link" href="#contact">Work with us<span>→</span></a>
+              <a className="project-link ghost" href="#services">View Services<span>→</span></a>
             </div>
           </div>
         </div>
