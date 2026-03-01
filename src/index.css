@@ -481,7 +481,8 @@ section:nth-child(even) {
 .service-icon img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
+  background: var(--white); /* optional, so empty space looks nice */
   /* Change contain to cover to avoid any gaps inside container */
   filter: invert(1);
   transition: filter 0.3s, transform 0.3s;
