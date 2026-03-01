@@ -317,12 +317,12 @@ section:nth-child(even) {
 
 /* About Us Section */
 .about-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 64px;
+  display: flex;
+  justify-content: center;  
+  align-items: center;      
   max-width: 1200px;
   margin: 0 auto;
-  align-items: start;
+  text-align: center;
 }
 
 @media(max-width: 900px) {
@@ -342,12 +342,14 @@ section:nth-child(even) {
   display: flex;
   gap: 32px;
   flex-wrap: wrap;
+  justify-content: center; /* ADD THIS */
 }
 
 .about-stat {
   display: flex;
   flex-direction: column;
   gap: 4px;
+  align-items: center; /* ADD THIS */
 }
 
 .stat-number {
@@ -1244,4 +1246,26 @@ footer {
   .footer-top {
     flex-direction: column;
   }
+}
+
+
+
+.email-link {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+.email-link:hover {
+  color: #007bff;
+}
+
+.whatsapp-link {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+.whatsapp-link:hover {
+  color: #007bff;
 }

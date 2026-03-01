@@ -4,6 +4,7 @@ import webAppIcon from "./assets/website_webapp_development_image.png";
 import desktopIcon from "./assets/desktop_application_development_image.png";
 import roboticIcon from "./assets/robotic_integrations_image.png";
 import logoImg from "./assets/roviotek_logo.png";
+import CountUp from "react-countup";
 
 // Team member imports
 import sandunImg from "./assets/Sandun_Sulakshana.png";
@@ -224,24 +225,46 @@ export default function App() {
         <div className="about-grid reveal">
           <div className="about-text-col">
             <p className="about-description">
-              RovioTek was founded with a simple mission — to bridge the gap between complex technology and real-world business needs. From IoT integrations and AI-powered systems to slick web apps and desktop tools, we craft solutions that scale. Our team of highly skilled engineers and designers work collaboratively to deliver exceptional results on every project.
+              RovioTek was founded with a simple mission to bridge the gap between complex technology and real-world business needs. From IoT integrations and AI-powered systems to slick web apps and desktop tools, we craft solutions that scale. Our team of highly skilled engineers and designers work collaboratively to deliver exceptional results on every project.
             </p>
+            
             <div className="about-stats">
               <div className="about-stat">
-                <span className="stat-number">10+</span>
+                <span className="stat-number">
+                  <CountUp end={10} 
+                  duration={2} 
+                  suffix="+" 
+                  enableScrollSpy={true}
+                  scrollSpyDelay={200}
+                  />
+                  </span>
                 <span className="stat-label">Projects Delivered</span>
               </div>
+
               <div className="about-stat">
-                <span className="stat-number">7</span>
+                <span className="stat-number">
+                  <CountUp end={7} 
+                  duration={2} 
+                  enableScrollSpy={true}
+                  scrollSpyDelay={200}
+                  />
+                </span>
                 <span className="stat-label">Team Members</span>
               </div>
               <div className="about-stat">
-                <span className="stat-number">100%</span>
+                <span className="stat-number">
+                  <CountUp end={100} 
+                  duration={2} 
+                  suffix="%" 
+                  enableScrollSpy={true}
+                  scrollSpyDelay={200}
+                  />
+                </span>
                 <span className="stat-label">Client Satisfaction</span>
               </div>
             </div>
           </div>
-          <div className="about-projects-col">
+          {/* <div className="about-projects-col">
             <h3 className="about-projects-title">Featured Projects</h3>
             <div className="about-projects-list">
               <div className="about-project-card">
@@ -260,7 +283,7 @@ export default function App() {
                 <p>A cross-platform clinic management desktop application with offline-first capabilities.</p>
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
       </section>
 
@@ -344,22 +367,31 @@ export default function App() {
                 <div className="contact-icon">✉</div>
                 <div>
                   <h5>EMAIL US</h5>
-                  <p>RovioTekTeam@gmail.com</p>
+                  <a href="mailto:roviotek.info@gmail.com" className="email-link">
+                    roviotek.info@gmail.com
+                  </a>
                 </div>
               </div>
               <div className="contact-item">
                 <div className="contact-icon">📞</div>
                 <div>
                   <h5>CALL US</h5>
-                  <p>+94 71 536 7890</p>
+                  <a
+                    href="https://wa.me/94726252526"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="whatsapp-link"
+                  >
+                    +94 72 625 2526
+                </a>
                 </div>
               </div>
               <div className="contact-item">
-                <div className="contact-icon">📍</div>
+                {/* <div className="contact-icon">📍</div>
                 <div>
                   <h5>VISIT US</h5>
                   <p>120/13, Nawalapitiya, Colombo 4.</p>
-                </div>
+                </div> */}
               </div>
             </div>
 
@@ -398,7 +430,7 @@ export default function App() {
             </div>
           </div>
         </div>
-
+        
         <div className="contact-map-col reveal">
           <div className="contact-map-card">
             <iframe
