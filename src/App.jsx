@@ -30,12 +30,12 @@ import facebookSvg from "./assets/facebook.svg";
 const services = [
   {
     img: webAppIcon,
-    title: "Web/App Development",
+    title: "Website/Mobile app Development",
     desc: "We build performant and secure web & mobile applications.",
   },
   {
     img: desktopIcon,
-    title: "Desktop Application",
+    title: "Desktop Application Development",
     desc: "Robust desktop applications customized to your requirements.",
   },
   {
@@ -113,26 +113,6 @@ const team = [
   }
 ];
 
-const reviews = [
-  {
-    text: `"A terrific piece of product!"`,
-    author: "Jane Doe",
-    role: "CEO, TechCorp",
-    avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&q=80&w=100",
-  },
-  {
-    text: `"A fantastic bit of feedback"`,
-    author: "John Smith",
-    role: "Founder, Innovate",
-    avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=100",
-  },
-  {
-    text: `"A genuinely glowing review"`,
-    author: "Sarah Connor",
-    role: "Director, FutureSystems",
-    avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=100",
-  }
-];
 
 export default function App() {
   const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 }); // We still need cursor pos to calculate ring target
