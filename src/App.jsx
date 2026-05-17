@@ -511,74 +511,7 @@ export default function App() {
           </div>
         </div>
         
-        <div className="contact-map-col reveal">
-          <div className="contact-map-card">
-            <iframe
-              title="RovioTek Headquarters - Nawalapitiya"
-              src="https://maps.google.com/maps?q=Nawalapitiya,Sri+Lanka&t=&z=14&ie=UTF8&iwloc=&output=embed"
-              width="100%"
-              height="100%"
-              style={{ border: 0 }}
-              allowFullScreen
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-            />
-          </div>
-        </div>
-      </section>
-
-      {/* Reviews */}
-      <section id="reviews">
-        <div className="section-header reveal">
-          <h2 className="section-title" style={{ textAlign: 'left', marginBottom: '32px' }}>Reviews</h2>
-        </div>
-        <div className="reviews-grid">
-          {reviews.map((r, i) => (
-            <div className="review-card reveal" key={i} style={{ transitionDelay: `${i * 0.1}s` }}>
-              <p className="review-text">{r.text}</p>
-              <div className="review-author">
-                <div className="review-author-avatar"><img src={r.avatar} alt={r.author} /></div>
-                <div className="review-author-info">
-                  <div className="review-author-name">{r.author}</div>
-                  <div className="review-author-role">{r.role}</div>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* Review Submission Form */}
-        <div className="review-form-wrapper reveal">
-          <h3 className="review-form-title">Leave a Review</h3>
-          <p className="review-form-subtitle">Share your experience working with RovioTek.</p>
-          <form
-            className="review-form"
-            onSubmit={(e) => {
-              e.preventDefault();
-              /* TODO: Implement NodeJS backend logic here
-                 - POST to /api/reviews with { name, role, text }
-                 - On success: show confirmation message
-                 - On error: show error toast
-              */
-            }}
-          >
-            <div className="form-row">
-              <div className="form-group">
-                <label>Your Name</label>
-                <input type="text" placeholder="Jane Doe" required />
-              </div>
-              <div className="form-group">
-                <label>Your Role / Company</label>
-                <input type="text" placeholder="CEO, Acme Corp" required />
-              </div>
-            </div>
-            <div className="form-group">
-              <label>Your Review</label>
-              <textarea placeholder="Share your experience with RovioTek..." rows="4" required></textarea>
-            </div>
-            <button type="submit" className="review-submit-btn">Submit Review <span>→</span></button>
-          </form>
-        </div>
+        
       </section>
 
       {/* Footer */}
