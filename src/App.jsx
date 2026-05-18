@@ -1,5 +1,8 @@
 import { useState, useEffect, useRef } from "react";
 import "./index.css";
+
+import LiquidChrome from './LiquidChrome';
+
 import webAppIcon from "./assets/website_webapp_development_image.png";
 import desktopIcon from "./assets/desktop_application_development_image.png";
 import roboticIcon from "./assets/robotic_integrations_image.png";
@@ -191,8 +194,17 @@ export default function App() {
 
       {/* Hero */}
       <section className="hero" id="home">
-        <div className="hero-grid-bg" />
-        <div className="hero-particles" />
+        {/* LiquidChrome — primary background, fully visible */}
+        <LiquidChrome
+          baseColor={[0.1, 0.1, 0.1]}
+          speed={0.3}
+          amplitude={0.3}
+          interactive={true}
+          style={{ zIndex: 0 }}
+        />
+
+
+        {/* Hero content sits above both backgrounds */}
         <div className="hero-content reveal visible">
           <h1 className="hero-title">We build<br /><span className="highlight">A Smart Future</span><br />with you</h1>
           <p className="hero-subtitle">Where Software Meets Ingenuity</p>
