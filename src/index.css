@@ -567,6 +567,25 @@ section:nth-child(even) {
   opacity: 1;
 }
 
+/* Project card media container */
+.project-media {
+  width: 100%;
+  height: 200px;          /* fixed height so it doesn't stretch the card */
+  overflow: hidden;
+  border-radius: 8px 8px 0 0;
+  background: #111;
+  margin: -28px -28px 20px -28px;  /* bleed to card edges (offsets card's 28px padding) */
+  width: calc(100% + 56px);        /* compensate for negative margins */
+}
+
+.project-media-asset {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;       /* fills the box, crops rather than stretching */
+  object-position: center top;  /* show top of image first (usually most relevant) */
+  display: block;
+}
+
 .project-title {
   font-family: var(--display);
   font-size: 1.35rem;

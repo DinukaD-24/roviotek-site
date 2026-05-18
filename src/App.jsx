@@ -27,6 +27,12 @@ import linkedinSvg from "./assets/linkedin.svg";
 import instagramSvg from "./assets/instagram.svg";
 import facebookSvg from "./assets/facebook.svg";
 
+// Project media imports
+import libriooImg from "./assets/librioo.jpeg";
+import hotelImg from "./assets/hotel_Management_System.png";
+import librarynetImg from "./assets/librarynet.jpeg";
+import fittyVid from "./assets/fitty.mp4";
+
 const services = [
   {
     img: webAppIcon,
@@ -277,6 +283,9 @@ export default function App() {
 
         <div className="projects-scroll reveal">
           <div className="project-card">
+            <div className="project-media">
+              <img src={libriooImg} alt="Librioo Smart Library Robot" className="project-media-asset" />
+            </div>
             <div className="project-top">
               <span className="project-tag">IoT + Web</span>
               <h3 className="project-title">Librioo Smart Library Robot</h3>
@@ -300,6 +309,9 @@ export default function App() {
           </div>
 
           <div className="project-card">
+            <div className="project-media">
+              <img src={hotelImg} alt="Hotel Management System" className="project-media-asset" />
+            </div>
             <div className="project-top">
               <span className="project-tag">Desktop Application</span>
               <h3 className="project-title">Hotel Management System</h3>
@@ -321,6 +333,9 @@ export default function App() {
           </div>
 
           <div className="project-card">
+            <div className="project-media">
+              <img src={librarynetImg} alt="LibraryNet" className="project-media-asset" />
+            </div>
             <div className="project-top">
               <span className="project-tag">Web Application</span>
               <h3 className="project-title">LibraryNet</h3>
@@ -340,6 +355,36 @@ export default function App() {
             <div className="project-actions">
               <a className="project-link" href="#contact">Work with us <span>→</span></a>
               <a className="project-link ghost" href="#services">Our Services <span>→</span></a>
+            </div>
+          </div>
+
+          <div className="project-card">
+            <div className="project-media">
+              <video
+                src={fittyVid}
+                className="project-media-asset"
+                autoPlay
+                muted
+                loop
+                playsInline
+              />
+            </div>
+            <div className="project-top">
+              <span className="project-tag">Mobile App</span>
+              <h3 className="project-title">FITTY</h3>
+              <p className="project-desc">
+                FITTY is a user-friendly clothing mobile app crafted with a polished UI/UX design in Figma and brought to life as a fully functional application using React Native — delivering a seamless and stylish shopping experience on mobile.
+              </p>
+            </div>
+
+            <div className="project-tech">
+              <span className="project-pill">Figma</span>
+              <span className="project-pill">React Native</span>
+            </div>
+
+            <div className="project-actions">
+              <a className="project-link" href="#contact">Work with us <span>→</span></a>
+              <a className="project-link ghost" href="#services">View Services <span>→</span></a>
             </div>
           </div>
 
