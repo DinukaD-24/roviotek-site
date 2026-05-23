@@ -196,9 +196,11 @@ export default function App() {
       <section className="hero" id="home">
         {/* LiquidChrome — primary background, fully visible */}
         <LiquidChrome
-          baseColor={[0.1, 0.1, 0.1]}
-          speed={0.3}
-          amplitude={0.3}
+          baseColor={[0.15, 0.15, 0.15]}
+          speed={0.15}
+          amplitude={0.18}
+          frequencyX={2.5}
+          frequencyY={2.5}
           interactive={true}
           style={{ zIndex: 0 }}
         />

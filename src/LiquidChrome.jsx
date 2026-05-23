@@ -74,7 +74,8 @@ const LiquidChrome = ({
         float ripple = sin(10.0 * dist - uTime * 2.0) * 0.03;
         uv += (diff / (dist + 0.0001)) * ripple * falloff;
 
-        vec3 color = uBaseColor / abs(sin(uTime - uv.y - uv.x));
+        // Clamp to avoid blown-out whites
+        vec3 color = clamp(uBaseColor / (abs(sin(uTime - uv.y - uv.x)) + 0.05), 0.0, 0.8);
         return vec4(color, 1.0);
       }
 
