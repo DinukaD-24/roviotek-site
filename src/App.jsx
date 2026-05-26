@@ -1,7 +1,9 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import "./index.css";
 
-import LiquidChrome from './LiquidChrome';
+import { ColorBends } from './ColorBends';
+import LetterGlitch from './LetterGlitch';
+import SplashCursor from './SplashCursor';
 
 import webAppIcon from "./assets/website_webapp_development_image.png";
 import desktopIcon from "./assets/desktop_application_development_image.png";
@@ -122,35 +124,103 @@ const team = [
   }
 ];
 
+const projects = [
+  {
+    id: "librioo",
+    tag: "IoT + Web",
+    title: "Librioo Smart Library Robot",
+    desc: "A smart library assistant robot with line-following navigation and an admin panel to manage books, members, and shelf routing.",
+    mediaType: "image",
+    mediaSrc: libriooImg,
+    tech: ["ESP32", "Arduino", "Spring Boot", "MySQL", "React"],
+    links: [
+      { text: "Work With Us", href: "#contact", primary: true },
+      { text: "View Services", href: "#services", primary: false }
+    ]
+  },
+  {
+    id: "hotel",
+    tag: "Desktop Application",
+    title: "Hotel Management System",
+    desc: "This is a comprehensive hotel management system designed to streamline room bookings, check-ins, and check-outs. It allows easy management of room inventory and guest information, ensuring efficient operations and a seamless experience for both staff and guests.",
+    mediaType: "image",
+    mediaSrc: hotelImg,
+    tech: ["Java", "Swing", "MySQL"],
+    links: [
+      { text: "Work with us", href: "#contact", primary: true },
+      { text: "View Services", href: "#services", primary: false }
+    ]
+  },
+  {
+    id: "librarynet",
+    tag: "Web Application",
+    title: "LibraryNet",
+    desc: "LibraryNet is an online library platform that allows users to read and borrow books digitally. Borrowed books are stored in your profile for a set period, giving you seamless access to your reading materials anytime, anywhere.",
+    mediaType: "image",
+    mediaSrc: librarynetImg,
+    tech: ["Java", "Springboot", "Hibernate", "Html/CSS", "Postgresql"],
+    links: [
+      { text: "Work with us", href: "#contact", primary: true },
+      { text: "Our Services", href: "#services", primary: false }
+    ]
+  },
+  {
+    id: "fitty",
+    tag: "Mobile App",
+    title: "FITTY",
+    desc: "FITTY is a user-friendly clothing mobile app crafted with a polished UI/UX design in Figma and brought to life as a fully functional application using React Native — delivering a seamless and stylish shopping experience on mobile.",
+    mediaType: "video",
+    mediaSrc: fittyVid,
+    tech: ["Figma", "React Native"],
+    links: [
+      { text: "Work with us", href: "#contact", primary: true },
+      { text: "View Services", href: "#services", primary: false }
+    ]
+  },
+  {
+    id: "coming-soon",
+    tag: "IOT + AI",
+    title: "Coming Soon...",
+    desc: "We are developing highly innovative IoT and AI-powered systems designed to automate real-world processes with cutting-edge machine learning model deployment.",
+    mediaType: "placeholder",
+    tech: [],
+    links: [
+      { text: "Work with us", href: "#contact", primary: true },
+      { text: "View Services", href: "#services", primary: false }
+    ]
+  }
+];
 
 export default function App() {
-  const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 }); // We still need cursor pos to calculate ring target
-  const [ring, setRing] = useState({ x: 0, y: 0 });
-  const [isHover, setIsHover] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const ringRef = useRef({ x: 0, y: 0 });
+  const [selectedProject, setSelectedProject] = useState(null);
+
+  // Disable body scroll when modal is open
+  useEffect(() => {
+    if (selectedProject) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [selectedProject]);
+
+  // Handle ESC key to close modal
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === "Escape") {
+        setSelectedProject(null);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
 
   useEffect(() => {
-    const onMove = (e) => setCursorPos({ x: e.clientX, y: e.clientY });
-    window.addEventListener("mousemove", onMove);
-
-    let frame;
-    const lerp = () => {
-      ringRef.current.x += (cursorPos.x - ringRef.current.x) * 0.12;
-      ringRef.current.y += (cursorPos.y - ringRef.current.y) * 0.12;
-      setRing({ x: ringRef.current.x, y: ringRef.current.y });
-      frame = requestAnimationFrame(lerp);
-    };
-    frame = requestAnimationFrame(lerp);
-
     const onScroll = () => setScrolled(window.scrollY > 40);
     window.addEventListener("scroll", onScroll);
-
-    // Hover detection
-    const onEnter = (e) => { if (e.target.closest('a,button,.service-card,.team-member,.tech-card')) setIsHover(true); };
-    const onLeave = () => setIsHover(false);
-    document.addEventListener("mouseover", onEnter);
-    document.addEventListener("mouseout", onLeave);
 
     // Scroll reveal
     const observer = new IntersectionObserver((entries) => {
@@ -159,21 +229,28 @@ export default function App() {
     document.querySelectorAll(".reveal").forEach(el => observer.observe(el));
 
     return () => {
-      window.removeEventListener("mousemove", onMove);
       window.removeEventListener("scroll", onScroll);
-      document.removeEventListener("mouseover", onEnter);
-      document.removeEventListener("mouseout", onLeave);
-      cancelAnimationFrame(frame);
       observer.disconnect();
     };
-  }, [cursorPos.x, cursorPos.y]);
+  }, []);
 
   return (
     <>
       <div className="noise" />
 
-      {/* Custom cursor ring */}
-      <div className={`cursor-ring ${isHover ? "hover" : ""}`} style={{ left: ring.x, top: ring.y }} />
+      {/* SplashCursor fluid simulation */}
+      <SplashCursor
+        DENSITY_DISSIPATION={3.5}
+        VELOCITY_DISSIPATION={2}
+        PRESSURE={0.1}
+        CURL={3}
+        SPLAT_RADIUS={0.2}
+        SPLAT_FORCE={6000}
+        COLOR_UPDATE_SPEED={10}
+        SHADING={true}
+        RAINBOW_MODE={false}
+        COLOR="#94a3b8"
+      />
 
       {/* Nav */}
       <nav className={scrolled ? "scrolled" : ""}>
@@ -194,15 +271,24 @@ export default function App() {
 
       {/* Hero */}
       <section className="hero" id="home">
-        {/* LiquidChrome — primary background, fully visible */}
-        <LiquidChrome
-          baseColor={[0.15, 0.15, 0.15]}
-          speed={0.15}
-          amplitude={0.18}
-          frequencyX={2.5}
-          frequencyY={2.5}
-          interactive={true}
+        {/* ColorBends — primary background, fully visible */}
+        <ColorBends
+          color="#465F6C"
+          speed={0.2}
+          frequency={1.0}
+          noise={0.15}
+          bandWidth={0.14}
+          rotation={90}
+          fadeTop={0.75}
+          iterations={1}
+          intensity={1.3}
           style={{ zIndex: 0 }}
+        />
+
+        {/* LetterGlitch overlay */}
+        <LetterGlitch
+          glitchSpeed={50}
+          opacity={0.15}
         />
 
 
@@ -296,131 +382,60 @@ export default function App() {
         </div>
 
         <div className="projects-scroll reveal">
-          <div className="project-card">
-            <div className="project-media">
-              <img src={libriooImg} alt="Librioo Smart Library Robot" className="project-media-asset" />
-            </div>
-            <div className="project-top">
-              <span className="project-tag">IoT + Web</span>
-              <h3 className="project-title">Librioo Smart Library Robot</h3>
-              <p className="project-desc">
-                A smart library assistant robot with line-following navigation and an admin panel to manage books, members, and shelf routing.
-              </p>
-            </div>
+          {projects.map((project) => (
+            <div 
+              className={`project-card ${project.id !== 'coming-soon' ? 'clickable' : ''}`}
+              key={project.id}
+              onClick={() => {
+                if (project.id !== 'coming-soon') {
+                  setSelectedProject(project);
+                }
+              }}
+            >
+              {project.mediaSrc && (
+                <div className="project-media">
+                  {project.mediaType === "video" ? (
+                    <video
+                      src={project.mediaSrc}
+                      className="project-media-asset"
+                      autoPlay
+                      muted
+                      loop
+                      playsInline
+                    />
+                  ) : (
+                    <img src={project.mediaSrc} alt={project.title} className="project-media-asset" />
+                  )}
+                </div>
+              )}
+              <div className="project-top">
+                <span className="project-tag">{project.tag}</span>
+                <h3 className="project-title">{project.title}</h3>
+                {project.desc && <p className="project-desc">{project.desc}</p>}
+              </div>
 
-            <div className="project-tech">
-              <span className="project-pill">ESP32</span>
-              <span className="project-pill">Arduino</span>
-              <span className="project-pill">Spring Boot</span>
-              <span className="project-pill">MySQL</span>
-              <span className="project-pill">React</span>
-            </div>
+              {project.tech.length > 0 && (
+                <div className="project-tech">
+                  {project.tech.map((t, idx) => (
+                    <span className="project-pill" key={idx}>{t}</span>
+                  ))}
+                </div>
+              )}
 
-            <div className="project-actions">
-              <a className="project-link" href="#contact">Work With Us <span>→</span></a>
-              <a className="project-link ghost" href="#services">View Services <span>→</span></a>
+              <div className="project-actions">
+                {project.links.map((link, idx) => (
+                  <a 
+                    className={`project-link ${link.primary ? '' : 'ghost'}`} 
+                    href={link.href}
+                    key={idx}
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    {link.text} <span>→</span>
+                  </a>
+                ))}
+              </div>
             </div>
-          </div>
-
-          <div className="project-card">
-            <div className="project-media">
-              <img src={hotelImg} alt="Hotel Management System" className="project-media-asset" />
-            </div>
-            <div className="project-top">
-              <span className="project-tag">Desktop Application</span>
-              <h3 className="project-title">Hotel Management System</h3>
-              <p className="project-desc">
-                This is a comprehensive hotel management system designed to streamline room bookings, check-ins, and check-outs. It allows easy management of room inventory and guest information, ensuring efficient operations and a seamless experience for both staff and guests.
-              </p>
-            </div>
-
-            <div className="project-tech">
-              <span className="project-pill">Java</span>
-              <span className="project-pill">Swing</span>
-              <span className="project-pill">MySQL</span>
-            </div>
-
-            <div className="project-actions">
-              <a className="project-link" href="#contact">Work with us<span>→</span></a>
-              <a className="project-link ghost" href="#services">View Services<span>→</span></a>
-            </div>
-          </div>
-
-          <div className="project-card">
-            <div className="project-media">
-              <img src={librarynetImg} alt="LibraryNet" className="project-media-asset" />
-            </div>
-            <div className="project-top">
-              <span className="project-tag">Web Application</span>
-              <h3 className="project-title">LibraryNet</h3>
-              <p className="project-desc">
-                LibraryNet is an online library platform that allows users to read and borrow books digitally. Borrowed books are stored in your profile for a set period, giving you seamless access to your reading materials anytime, anywhere.
-              </p>
-            </div>
-
-            <div className="project-tech">
-              <span className="project-pill">Java</span>
-              <span className="project-pill">Springboot</span>
-              <span className="project-pill">Hibernate</span>
-              <span className="project-pill">Html/CSS</span>
-              <span className="project-pill">Postgresql</span>
-            </div>
-
-            <div className="project-actions">
-              <a className="project-link" href="#contact">Work with us <span>→</span></a>
-              <a className="project-link ghost" href="#services">Our Services <span>→</span></a>
-            </div>
-          </div>
-
-          <div className="project-card">
-            <div className="project-media">
-              <video
-                src={fittyVid}
-                className="project-media-asset"
-                autoPlay
-                muted
-                loop
-                playsInline
-              />
-            </div>
-            <div className="project-top">
-              <span className="project-tag">Mobile App</span>
-              <h3 className="project-title">FITTY</h3>
-              <p className="project-desc">
-                FITTY is a user-friendly clothing mobile app crafted with a polished UI/UX design in Figma and brought to life as a fully functional application using React Native — delivering a seamless and stylish shopping experience on mobile.
-              </p>
-            </div>
-
-            <div className="project-tech">
-              <span className="project-pill">Figma</span>
-              <span className="project-pill">React Native</span>
-            </div>
-
-            <div className="project-actions">
-              <a className="project-link" href="#contact">Work with us <span>→</span></a>
-              <a className="project-link ghost" href="#services">View Services <span>→</span></a>
-            </div>
-          </div>
-
-          <div className="project-card">
-            <div className="project-top">
-              <span className="project-tag">IOT + AI</span>
-              <h3 className="project-title">Coming Soon...</h3>
-              <p className="project-desc">
-              </p>
-            </div>
-
-            <div className="project-tech">
-              <span className="project-pill"></span>
-              <span className="project-pill"></span>
-              <span className="project-pill"></span>
-            </div>
-
-            <div className="project-actions">
-              <a className="project-link" href="#contact">Work with us<span>→</span></a>
-              <a className="project-link ghost" href="#services">View Services<span>→</span></a>
-            </div>
-          </div>
+          ))}
         </div>
       </section>
 
@@ -591,6 +606,89 @@ export default function App() {
           </div>
         </div>
       </footer>
+
+      {/* Project Detail Modal */}
+      {selectedProject && (
+        <div 
+          className="project-modal-overlay"
+          onClick={() => setSelectedProject(null)}
+        >
+          <div 
+            className="project-modal-container"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button 
+              className="project-modal-close"
+              onClick={() => setSelectedProject(null)}
+              aria-label="Close modal"
+            >
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+            </button>
+
+            <div className="project-modal-content">
+              <div className="project-modal-media-wrapper">
+                {selectedProject.mediaType === "video" ? (
+                  <video
+                    src={selectedProject.mediaSrc}
+                    className="project-modal-media-asset"
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    controls
+                  />
+                ) : (
+                  <img 
+                    src={selectedProject.mediaSrc} 
+                    alt={selectedProject.title} 
+                    className="project-modal-media-asset" 
+                  />
+                )}
+              </div>
+
+              <div className="project-modal-details">
+                <div className="project-modal-top">
+                  <span className="project-tag">{selectedProject.tag}</span>
+                  <h2 className="project-modal-title">{selectedProject.title}</h2>
+                  <p className="project-modal-desc">{selectedProject.desc}</p>
+                </div>
+
+                <div className="project-modal-footer">
+                  {selectedProject.tech.length > 0 && (
+                    <div className="project-modal-tech-section">
+                      <h4 className="project-modal-subtitle">Technologies</h4>
+                      <div className="project-tech">
+                        {selectedProject.tech.map((t, idx) => (
+                          <span className="project-pill" key={idx}>{t}</span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  <div className="project-modal-actions-section">
+                    <h4 className="project-modal-subtitle">Next Steps</h4>
+                    <div className="project-actions">
+                      {selectedProject.links.map((link, idx) => (
+                        <a 
+                          className={`project-link ${link.primary ? '' : 'ghost'}`} 
+                          href={link.href}
+                          key={idx}
+                          onClick={() => setSelectedProject(null)}
+                        >
+                          {link.text} <span>→</span>
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 }
