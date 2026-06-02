@@ -1,17 +1,23 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import "./index.css";
 
-import { ColorBends } from './ColorBends';
-import LetterGlitch from './LetterGlitch';
-import SplashCursor from './SplashCursor';
+// Redesign Component Imports
+import TechGrid from './TechGrid';
+import ScrollProgress from './ScrollProgress';
+import Magnetic from './Magnetic';
+import HeroCanvas from './components/HeroCanvas';
+import HeroMeshBg from './components/HeroMeshBg';
+import TechStackShowcase from './components/TechStackShowcase';
+import ProjectsShowcase from './components/ProjectsShowcase';
 
-import webAppIcon from "./assets/website_webapp_development_image.png";
-import desktopIcon from "./assets/desktop_application_development_image.png";
-import roboticIcon from "./assets/robotic_integrations_image.png";
-import logoImg from "./assets/roviotek_logo.png";
+// Utility Imports
 import CountUp from "react-countup";
+import Lenis from "lenis";
+import { motion, AnimatePresence } from "framer-motion";
+import { ChevronRight } from "lucide-react";
 
-// Team member imports
+// Asset Imports
+import logoImg from "./assets/roviotek_logo.png";
 import sandunImg from "./assets/Sandun_Sulakshana.png";
 import tharanaImg from "./assets/Tharana_Hasintha.png";
 import dinukaImg from "./assets/Dinuka_Daksitha.png";
@@ -20,11 +26,7 @@ import pasinduImg from "./assets/Pasindu_Tharaka.png";
 import kavinduImg from "./assets/Kavindu_Dilhara.png";
 import anuruddhaImg from "./assets/Anuruddha_Shanaka.png";
 
-// Tech stack imports
-import frontendImg from "./assets/Frontend.png";
-import backendImg from "./assets/Backend.png";
-import devopsImg from "./assets/DevOps_Tools_Cloud.png";
-import databaseImg from "./assets/Databases.png";
+// Tech stack imports removed
 
 // Social imports
 import whatsappSvg from "./assets/whatsapp.svg";
@@ -40,44 +42,20 @@ import fittyVid from "./assets/fitty.mp4";
 
 const services = [
   {
-    img: webAppIcon,
     title: "Website/Mobile app Development",
     desc: "We build performant and secure web & mobile applications.",
   },
   {
-    img: desktopIcon,
     title: "Desktop Application Development",
     desc: "Robust desktop applications customized to your requirements.",
   },
   {
-    img: roboticIcon,
     title: "Robotic Integration",
     desc: "Seamlessly integrate automated solutions to maximize your efficiency.",
   },
 ];
 
-const techStack = [
-  {
-    title: "Front-End",
-    desc: "HTML, CSS, React, Angular",
-    img: frontendImg,
-  },
-  {
-    title: "Back-End",
-    desc: "PHP, Spring Boot, NodeJS",
-    img: backendImg,
-  },
-  {
-    title: "DevOps, Tools & Cloud",
-    desc: "Git, Docker, AWS, Postman testing tools",
-    img: devopsImg,
-  },
-  {
-    title: "Databases",
-    desc: "MySQL, PostgreSQL, MongoDB, Firebase",
-    img: databaseImg,
-  },
-];
+// techStack data moved to TechStackShowcase
 
 const team = [
   {
@@ -191,9 +169,118 @@ const projects = [
   }
 ];
 
+// ── Hero animation variants ──────────────────────────────────────────────────
+const heroContainerVariants = {
+  hidden: {},
+  visible: {
+    transition: { staggerChildren: 0.14, delayChildren: 0.25 },
+  },
+};
+
+const heroLineVariants = {
+  hidden: { opacity: 0, y: 48 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.85, ease: [0.16, 1, 0.3, 1] },
+  },
+};
+
+// Interactive 3D tilt card for Team
+function TeamMemberCard({ m, i }) {
+  const cardRef = useRef(null);
+  const [rotateX, setRotateX] = useState(0);
+  const [rotateY, setRotateY] = useState(0);
+
+  const handleMouseMove = (e) => {
+    if (!cardRef.current) return;
+    const { left, top, width, height } = cardRef.current.getBoundingClientRect();
+    const x = e.clientX - left - width / 2;
+    const y = e.clientY - top - height / 2;
+    setRotateX(-y / (height / 2) * 8);
+    setRotateY(x / (width / 2) * 8);
+  };
+
+  const handleMouseLeave = () => {
+    setRotateX(0);
+    setRotateY(0);
+  };
+
+  return (
+    <motion.div
+      ref={cardRef}
+      className="team-member-card"
+      style={{
+        transform: `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`,
+        transition: 'transform 0.15s ease',
+      }}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-50px" }}
+      transition={{ duration: 0.5, delay: i * 0.08 }}
+    >
+      <div className="team-avatar-frame">
+        <img src={m.avatar} alt={m.name} className="team-avatar-img" />
+      </div>
+      
+      <div className="team-info">
+        <h4 className="team-name">{m.name}</h4>
+        <p className="team-role">{m.role}</p>
+      </div>
+
+      <div className="team-socials-row">
+        <Magnetic>
+          <a href={m.socials.linkedin || "#"} title="LinkedIn" target="_blank" rel="noreferrer" className="social-anchor">
+            <img src={linkedinSvg} alt="LinkedIn" className="social-icon" />
+          </a>
+        </Magnetic>
+        {m.socials.facebook && (
+          <Magnetic>
+            <a href={m.socials.facebook || "#"} title="Facebook" target="_blank" rel="noreferrer" className="social-anchor">
+              <img src={facebookSvg} alt="Facebook" className="social-icon" />
+            </a>
+          </Magnetic>
+        )}
+      </div>
+    </motion.div>
+  );
+}
+
 export default function App() {
   const [scrolled, setScrolled] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
+
+  // Form states
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+  const [formSubmitted, setFormSubmitted] = useState(false);
+
+  // Initialize Lenis scroll
+  useEffect(() => {
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smoothWheel: true,
+    });
+
+    function raf(time) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+    requestAnimationFrame(raf);
+
+    const handleScroll = () => setScrolled(window.scrollY > 40);
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      lenis.destroy();
+    };
+  }, []);
 
   // Disable body scroll when modal is open
   useEffect(() => {
@@ -218,39 +305,71 @@ export default function App() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
 
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 40);
-    window.addEventListener("scroll", onScroll);
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+    setTimeout(() => {
+      setFormSubmitted(true);
+    }, 850);
+  };
 
-    // Scroll reveal
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add("visible"); });
-    }, { threshold: 0.1 });
-    document.querySelectorAll(".reveal").forEach(el => observer.observe(el));
-
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-      observer.disconnect();
-    };
-  }, []);
+  // SVGs for Services
+  const serviceIcons = [
+    <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="2" style={{ width: "64px", height: "64px", margin: "auto", display: "block" }}>
+      <rect x="15" y="20" width="70" height="46" rx="3" stroke="var(--accent-cyan)" />
+      <line x1="10" y1="66" x2="90" y2="66" stroke="var(--accent-cyan)" strokeWidth="4" />
+      <rect x="62" y="38" width="20" height="38" rx="3" fill="#09090b" stroke="var(--accent-purple)" strokeWidth="2" />
+      <circle cx="72" cy="70" r="1.5" fill="var(--accent-purple)" />
+      <motion.line x1="25" y1="30" x2="55" y2="30" stroke="rgba(255,255,255,0.4)" strokeWidth="2" 
+        animate={{ opacity: [0.3, 1, 0.3] }} transition={{ repeat: Infinity, duration: 2, ease: "linear" }}
+      />
+      <motion.line x1="25" y1="40" x2="45" y2="40" stroke="rgba(255,255,255,0.4)" strokeWidth="2"
+        animate={{ opacity: [0.3, 1, 0.3] }} transition={{ repeat: Infinity, duration: 2, ease: "linear", delay: 0.5 }}
+      />
+    </svg>,
+    <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="2" style={{ width: "64px", height: "64px", margin: "auto", display: "block" }}>
+      <rect x="15" y="15" width="70" height="70" rx="6" stroke="var(--accent-purple)" />
+      <line x1="15" y1="32" x2="85" y2="32" stroke="var(--accent-purple)" />
+      <circle cx="23" cy="23" r="2" fill="var(--accent-purple)" />
+      <circle cx="31" cy="23" r="2" fill="var(--accent-purple)" />
+      <circle cx="39" cy="23" r="2" fill="var(--accent-purple)" />
+      <motion.path 
+        d="M 25 45 L 45 45 M 25 55 L 65 55 M 25 65 L 50 65" 
+        stroke="var(--accent-cyan)" 
+        strokeWidth="3" 
+        strokeLinecap="round"
+        animate={{ strokeDashoffset: [160, 0] }}
+        strokeDasharray="80"
+        transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}
+      />
+    </svg>,
+    <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="2" style={{ width: "64px", height: "64px", margin: "auto", display: "block" }}>
+      <rect x="20" y="80" width="60" height="8" rx="2" stroke="var(--accent-cyan)" fill="rgba(255,255,255,0.05)" />
+      <motion.line 
+        x1="50" y1="80" x2="40" y2="45" 
+        stroke="var(--accent-cyan)" 
+        strokeWidth="4" 
+        animate={{ rotate: [-8, 12, -8] }}
+        transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
+        style={{ transformOrigin: "50px 80px" }}
+      />
+      <circle cx="40" cy="45" r="4" fill="var(--accent-purple)" />
+      <motion.line 
+        x1="40" y1="45" x2="65" y2="30" 
+        stroke="var(--accent-purple)" 
+        strokeWidth="3"
+        animate={{ rotate: [12, -15, 12] }}
+        transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
+        style={{ transformOrigin: "40px 45px" }}
+      />
+      <circle cx="65" cy="30" r="3" fill="var(--accent-cyan)" />
+    </svg>
+  ];
 
   return (
     <>
+      <ScrollProgress />
       <div className="noise" />
-
-      {/* SplashCursor fluid simulation */}
-      <SplashCursor
-        DENSITY_DISSIPATION={3.5}
-        VELOCITY_DISSIPATION={2}
-        PRESSURE={0.1}
-        CURL={3}
-        SPLAT_RADIUS={0.2}
-        SPLAT_FORCE={6000}
-        COLOR_UPDATE_SPEED={10}
-        SHADING={true}
-        RAINBOW_MODE={false}
-        COLOR="#94a3b8"
-      />
+      <TechGrid />
 
       {/* Nav */}
       <nav className={scrolled ? "scrolled" : ""}>
@@ -265,344 +384,371 @@ export default function App() {
           <a href="#tech-stack">Tech Stack</a>
           <a href="#team">Our Team</a>
           <a href="#contact">Contact</a>
-          <a href="#reviews">Reviews</a>
         </div>
       </nav>
 
-      {/* Hero */}
-      <section className="hero" id="home">
-        {/* ColorBends — primary background, fully visible */}
-        <ColorBends
-          color="#465F6C"
-          speed={0.2}
-          frequency={1.0}
-          noise={0.15}
-          bandWidth={0.14}
-          rotation={90}
-          fadeTop={0.75}
-          iterations={1}
-          intensity={1.3}
-          style={{ zIndex: 0 }}
-        />
+      {/* ── HERO SECTION v2 — Premium Showcase ── */}
+      <section className="hero-v2" id="home">
+        <HeroMeshBg />
 
-        {/* LetterGlitch overlay */}
-        <LetterGlitch
-          glitchSpeed={50}
-          opacity={0.15}
-        />
+        <div className="hero-v2-inner">
 
+          {/* LEFT COLUMN — Text */}
+          <div className="hero-v2-left">
 
-        {/* Hero content sits above both backgrounds */}
-        <div className="hero-content reveal visible">
-          <h1 className="hero-title">We build<br /><span className="highlight">A Smart Future</span><br />with you</h1>
-          <p className="hero-subtitle">Where Software Meets Ingenuity</p>
-          <div className="hero-actions">
-            <a href="#services" className="btn-primary">Get Started</a>
-            <a href="#contact" className="btn-secondary">Contact Us</a>
-          </div>
-        </div>
+            {/* Badge */}
+            <motion.div
+              className="hero-badge"
+              initial={{ opacity: 0, y: 18 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
+            >
+              <span className="hero-badge-dot" />
+              Software · AI · Robotics
+            </motion.div>
+
+            {/* Headline — staggered word reveal */}
+            <motion.h1
+              className="hero-v2-h1"
+              variants={heroContainerVariants}
+              initial="hidden"
+              animate="visible"
+              aria-label="We build A Smart Future with you"
+            >
+              <span className="hero-line-wrap">
+                <motion.span className="hero-line-inner" variants={heroLineVariants}>
+                  We build
+                </motion.span>
+              </span>
+              <span className="hero-line-wrap">
+                <motion.span className="hero-line-inner gradient-word" variants={heroLineVariants}>
+                  A Smart Future
+                </motion.span>
+              </span>
+              <span className="hero-line-wrap">
+                <motion.span className="hero-line-inner" variants={heroLineVariants}>
+                  with you
+                </motion.span>
+              </span>
+            </motion.h1>
+
+            {/* Subheading */}
+            <motion.p
+              className="hero-v2-desc"
+              initial={{ opacity: 0, y: 14 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.78, ease: [0.16, 1, 0.3, 1] }}
+            >
+              Where Software Meets Ingenuity
+            </motion.p>
+
+            {/* CTAs */}
+            <motion.div
+              className="hero-v2-actions"
+              initial={{ opacity: 0, y: 14 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.96, ease: [0.16, 1, 0.3, 1] }}
+            >
+              <Magnetic>
+                <a href="#services" className="btn-primary-v2">
+                  Get Started <ChevronRight size={16} style={{ marginLeft: 4 }} />
+                </a>
+              </Magnetic>
+              <Magnetic>
+                <a href="#contact" className="btn-secondary-v2">
+                  Contact Us
+                </a>
+              </Magnetic>
+            </motion.div>
+
+            {/* Scroll indicator */}
+            <motion.a
+              href="#about"
+              aria-label="Scroll Down"
+              className="hero-scroll-link"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 1, delay: 1.5 }}
+            >
+              <div className="scroll-indicator-mouse">
+                <span className="scroll-indicator-wheel" />
+              </div>
+            </motion.a>
+
+          </div>{/* end hero-v2-left */}
+
+          {/* RIGHT COLUMN — Neural Orbit Canvas */}
+          <motion.div
+            className="hero-v2-right"
+            initial={{ opacity: 0, scale: 0.92 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1.3, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
+          >
+            <HeroCanvas />
+          </motion.div>
+
+        </div>{/* end hero-v2-inner */}
+
+        {/* Bottom vignette — smooth bridge to next section */}
+        <div className="hero-v2-fade-bottom" />
       </section>
 
+      <div className="section-divider" />
+
       {/* About Us */}
-      <section id="about">
-        <div className="section-header reveal">
+      <section id="about" className="about-redefined">
+        <div className="section-header reveal visible">
           <h2 className="section-title">About Us</h2>
           <p className="section-subtitle">We are a passionate software company building smart, scalable solutions that make a real difference.</p>
         </div>
-        <div className="about-grid reveal">
-          <div className="about-text-col">
-            <p className="about-description">
+
+        <div className="about-dashboard-grid">
+          <div className="about-vision-card">
+            <p className="about-description-text">
               RovioTek was founded with a simple mission to bridge the gap between complex technology and real-world business needs. From IoT integrations and AI-powered systems to slick web apps and desktop tools, we craft solutions that scale. Our team of highly skilled engineers and designers work collaboratively to deliver exceptional results on every project.
             </p>
-            
-            <div className="about-stats">
-              <div className="about-stat">
-                <span className="stat-number">
-                  <CountUp end={3} 
-                  duration={2} 
-                  suffix="+" 
-                  enableScrollSpy={true}
-                  scrollSpyDelay={200}
-                  />
-                  </span>
-                <span className="stat-label">Projects Delivered</span>
-              </div>
 
-              <div className="about-stat">
-                <span className="stat-number">
-                  <CountUp end={7} 
-                  duration={2} 
-                  enableScrollSpy={true}
-                  scrollSpyDelay={200}
-                  />
+            <div className="dashboard-stats-row">
+              <div className="dashboard-stat-box">
+                <span className="stat-num text-cyan-400">
+                  <CountUp end={3} duration={2} suffix="+" enableScrollSpy />
                 </span>
-                <span className="stat-label">Team Members</span>
+                <span className="stat-lbl">Projects Delivered</span>
               </div>
-              <div className="about-stat">
-                <span className="stat-number">
-                  <CountUp end={100} 
-                  duration={2} 
-                  suffix="%" 
-                  enableScrollSpy={true}
-                  scrollSpyDelay={200}
-                  />
+              <div className="dashboard-stat-box">
+                <span className="stat-num text-purple-400">
+                  <CountUp end={7} duration={2} enableScrollSpy />
                 </span>
-                <span className="stat-label">Client Satisfaction</span>
+                <span className="stat-lbl">Team Members</span>
+              </div>
+              <div className="dashboard-stat-box">
+                <span className="stat-num text-emerald-400">
+                  <CountUp end={100} duration={2} suffix="%" enableScrollSpy />
+                </span>
+                <span className="stat-lbl">Client Satisfaction</span>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Services */}
-      <section id="services">
-        <div className="section-header reveal">
+      <div className="section-divider" />
+
+      {/* Our Services */}
+      <section id="services" className="services-redefined">
+        <div className="section-header reveal visible">
           <h2 className="section-title">Our Services</h2>
           <p className="section-subtitle">Providing cutting edge software solutions tailored to your needs</p>
         </div>
-        <div className="services-grid">
+        
+        <div className="services-grid-redefined">
           {services.map((s, i) => (
-            <div className="service-card reveal" key={i} style={{ transitionDelay: `${i * 0.1}s` }}>
-              <div className="service-icon"><img src={s.img} alt={s.title} /></div>
-              <h3 className="service-title">{s.title}</h3>
-              <p className="service-desc">{s.desc}</p>
-              <a href="#contact" className="service-link">Get Started <span>→</span></a>
+            <div className="service-card-obsidian" key={i}>
+              <div className="service-card-icon-frame">
+                {serviceIcons[i]}
+              </div>
+              <h3 className="service-card-title">{s.title}</h3>
+              <p className="service-card-desc">{s.desc}</p>
+              <Magnetic>
+                <a href="#contact" className="service-card-link">Get Started <span>→</span></a>
+              </Magnetic>
             </div>
           ))}
         </div>
       </section>
+
+      <div className="section-divider" />
 
       {/* Our Projects */}
-      <section id="projects">
-        <div className="section-header reveal">
-          <h2 className="section-title">Our Projects</h2>
-          <p className="section-subtitle">
-            Real work we’ve delivered — from IoT robotics to full-stack platforms.
-          </p>
-        </div>
+      <ProjectsShowcase projects={projects} setSelectedProject={setSelectedProject} />
 
-        <div className="projects-scroll reveal">
-          {projects.map((project) => (
-            <div 
-              className={`project-card ${project.id !== 'coming-soon' ? 'clickable' : ''}`}
-              key={project.id}
-              onClick={() => {
-                if (project.id !== 'coming-soon') {
-                  setSelectedProject(project);
-                }
-              }}
-            >
-              {project.mediaSrc && (
-                <div className="project-media">
-                  {project.mediaType === "video" ? (
-                    <video
-                      src={project.mediaSrc}
-                      className="project-media-asset"
-                      autoPlay
-                      muted
-                      loop
-                      playsInline
-                    />
-                  ) : (
-                    <img src={project.mediaSrc} alt={project.title} className="project-media-asset" />
-                  )}
-                </div>
-              )}
-              <div className="project-top">
-                <span className="project-tag">{project.tag}</span>
-                <h3 className="project-title">{project.title}</h3>
-                {project.desc && <p className="project-desc">{project.desc}</p>}
-              </div>
-
-              {project.tech.length > 0 && (
-                <div className="project-tech">
-                  {project.tech.map((t, idx) => (
-                    <span className="project-pill" key={idx}>{t}</span>
-                  ))}
-                </div>
-              )}
-
-              <div className="project-actions">
-                {project.links.map((link, idx) => (
-                  <a 
-                    className={`project-link ${link.primary ? '' : 'ghost'}`} 
-                    href={link.href}
-                    key={idx}
-                    onClick={(e) => e.stopPropagation()}
-                  >
-                    {link.text} <span>→</span>
-                  </a>
-                ))}
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
+      <div className="section-divider" />
 
       {/* Tech Stack */}
-      <section id="tech-stack">
-        <div className="section-header reveal">
-          <h2 className="section-title">Tech Stack</h2>
-          <p className="section-subtitle">We use cutting edge technologies to build robust solutions</p>
-        </div>
-        <div className="tech-grid">
-          {techStack.map((t, i) => (
-            <div className="tech-card reveal" key={i} style={{ transitionDelay: `${i * 0.1}s` }}>
-              <div className="tech-image">
-                <img src={t.img} alt={t.title} />
-              </div>
-              <div className="tech-content">
-                <h4 className="tech-title">{t.title}</h4>
-                <p className="tech-desc">{t.desc}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
+      <TechStackShowcase />
+
+      <div className="section-divider" />
 
       {/* Our Team */}
-      <section id="team">
-        <div className="section-header reveal">
+      <section id="team" className="team-redefined">
+        <div className="section-header reveal visible">
           <h2 className="section-title" style={{ fontSize: 'clamp(2.5rem, 5vw, 4rem)' }}>Meet Our Team of Experts</h2>
           <p className="section-subtitle" style={{ fontSize: '1.1rem', marginTop: '16px', maxWidth: '600px', margin: '16px auto 0' }}>
             Our talented team is dedicated to delivering cutting-edge software solutions with passion and expertise.
           </p>
         </div>
-        <div className="team-grid">
-          {team.map((m, i) => (
-            <div className="team-member reveal" key={i} style={{ transitionDelay: `${i * 0.1}s` }}>
-              <div className="team-avatar">
-                <img src={m.avatar} alt={m.name} />
-              </div>
-              <h4 className="team-name">{m.name}</h4>
-              <p className="team-role">{m.role}</p>
-              <div className="team-socials">
-                <a href={m.socials.linkedin || "#"} title="LinkedIn" target="_blank" rel="noreferrer">
-                  <img src={linkedinSvg} alt="LinkedIn" className="social-icon" />
-                </a>
-                <a href={m.socials.facebook || "#"} title="Facebook" target="_blank" rel="noreferrer">
-                  <img src={facebookSvg} alt="Facebook" className="social-icon" />
-                </a>
-              </div>
-            </div>
+
+        <div className="team-cards-grid-redefined">
+          {team.map((member, idx) => (
+            <TeamMemberCard m={member} i={idx} key={idx} />
           ))}
         </div>
       </section>
 
-      {/* Contact Us */}
-      <section id="contact">
-        <div className="contact-grid reveal">
-          <div className="contact-info-col">
-            <h2 className="contact-heading">LET'S CONNECT.</h2>
-            <p className="contact-tagline">We're building the future of infrastructure. Reach out to discuss partnerships, support, or career opportunities.</p>
+      <div className="section-divider" />
 
-            <div className="contact-details">
-              <div className="contact-item">
-                <div className="contact-icon">✉</div>
-                <div>
-                  <h5>EMAIL US</h5>
-                  <a href="mailto:roviotek.info@gmail.com" className="email-link">
-                    roviotek.info@gmail.com
-                  </a>
+      {/* Contact Us */}
+      <section id="contact" className="contact-redefined">
+        <div className="contact-control-panel-grid">
+          <div className="contact-left-col">
+            <h2 className="contact-heading-text">LET'S CONNECT.</h2>
+            <p className="contact-desc-text">
+              We're building the future of infrastructure. Reach out to discuss partnerships, support, or career opportunities.
+            </p>
+
+            <div className="telemetry-contacts-list">
+              <div className="telemetry-contact-item">
+                <div className="contact-metric-num">EMAIL US</div>
+                <div className="contact-metric-detail">
+                  <a href="mailto:roviotek.info@gmail.com">roviotek.info@gmail.com</a>
                 </div>
               </div>
-              <div className="contact-item">
-                <div className="contact-icon">📞</div>
-                <div>
-                  <h5>CALL US</h5>
-                  <a
-                    href="https://wa.me/94726252526"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="whatsapp-link"
-                  >
-                    +94 72 625 2526
-                </a>
+              <div className="telemetry-contact-item">
+                <div className="contact-metric-num">CALL US</div>
+                <div className="contact-metric-detail">
+                  <a href="https://wa.me/94726252526" target="_blank" rel="noopener noreferrer">+94 72 625 2526</a>
                 </div>
-              </div>
-              <div className="contact-item">
-                {/* <div className="contact-icon">📍</div>
-                <div>
-                  <h5>VISIT US</h5>
-                  <p>120/13, Nawalapitiya, Colombo 4.</p>
-                </div> */}
               </div>
             </div>
 
-            <div className="contact-socials-block">
-              <h5>FOLLOW US</h5>
-              <div className="contact-socials-icons">
-                <a href="#" target="_blank" rel="noreferrer"><img src={linkedinSvg} alt="LinkedIn" /></a>
-                <a href="#" target="_blank" rel="noreferrer"><img src={facebookSvg} alt="Facebook" /></a>
+            <div className="contact-left-footer">
+              <div className="contact-socials-row">
+                <Magnetic>
+                  <a href="#" target="_blank" rel="noreferrer" className="social-anchor">
+                    <img src={linkedinSvg} alt="LinkedIn" className="social-icon" />
+                  </a>
+                </Magnetic>
+                <Magnetic>
+                  <a href="#" target="_blank" rel="noreferrer" className="social-anchor">
+                    <img src={facebookSvg} alt="Facebook" className="social-icon" />
+                  </a>
+                </Magnetic>
               </div>
             </div>
           </div>
 
-          <div className="contact-form-col">
-            <div className="contact-form-card">
-              <form onSubmit={(e) => { e.preventDefault(); /* TODO: Implement NodeJS backend logic here */ }}>
-                <div className="form-row">
-                  <div className="form-group">
-                    <label>First Name</label>
-                    <input type="text" placeholder="John" required />
-                  </div>
-                  <div className="form-group">
-                    <label>Last Name</label>
-                    <input type="text" placeholder="Doe" required />
-                  </div>
-                </div>
-                <div className="form-group">
-                  <label>Work Email</label>
-                  <input type="email" placeholder="john@company.com" required />
-                </div>
-                <div className="form-group">
-                  <label>How can we help?</label>
-                  <textarea placeholder="Tell us about your project..." rows="4" required></textarea>
-                </div>
-                <button type="submit" className="form-submit-btn">Send Message <span>→</span></button>
-              </form>
+          <div className="contact-right-col">
+            <div className="obsidian-form-card">
+              <AnimatePresence mode="wait">
+                {!formSubmitted ? (
+                  <form onSubmit={handleFormSubmit} className="obsidian-form-element">
+                    <div className="form-input-row">
+                      <div className="form-input-group">
+                        <label>First Name</label>
+                        <input 
+                          type="text" 
+                          placeholder="John" 
+                          value={firstName}
+                          onChange={(e) => setFirstName(e.target.value)}
+                          required 
+                        />
+                      </div>
+                      <div className="form-input-group">
+                        <label>Last Name</label>
+                        <input 
+                          type="text" 
+                          placeholder="Doe" 
+                          value={lastName}
+                          onChange={(e) => setLastName(e.target.value)}
+                          required 
+                        />
+                      </div>
+                    </div>
+
+                    <div className="form-input-group">
+                      <label>Work Email</label>
+                      <input 
+                        type="email" 
+                        placeholder="john@company.com" 
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        required 
+                      />
+                    </div>
+
+                    <div className="form-input-group">
+                      <label>How can we help?</label>
+                      <textarea 
+                        placeholder="Tell us about your project..." 
+                        rows="4" 
+                        value={message}
+                        onChange={(e) => setMessage(e.target.value)}
+                        required 
+                      />
+                    </div>
+
+                    <button type="submit" className="form-submit-btn-obsidian">
+                      Send Message <span>→</span>
+                    </button>
+                  </form>
+                ) : (
+                  <motion.div
+                    key="success-form"
+                    className="form-success-wrapper-obsidian"
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ type: "spring", stiffness: 100, damping: 15 }}
+                  >
+                    <svg className="success-checkmark-svg" viewBox="0 0 52 52">
+                      <circle cx="26" cy="26" r="25" fill="none" stroke="var(--accent-cyan)" strokeWidth="2" />
+                      <path d="M14.1 27.2l7.1 7.2 16.7-16.8" fill="none" stroke="var(--accent-cyan)" strokeWidth="2" />
+                    </svg>
+                    <h4>Message Sent Successfully</h4>
+                    <p>Thank you, {firstName}. Our team will contact you shortly.</p>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
           </div>
         </div>
-        
-        
       </section>
 
+      <div className="section-divider" />
+
       {/* Footer */}
-      <footer>
-        <div className="footer-top reveal">
-          <div className="footer-brand">
-            <img src={logoImg} alt="RovioTek Logo" className="footer-logo-img" />
+      <footer className="footer-obsidian">
+        <div className="footer-top-row">
+          <div className="footer-brand-info">
+            <img src={logoImg} alt="RovioTek Logo" className="footer-logo-brand" />
             <p>Building a smart future where software meets ingenuity.</p>
           </div>
-          <div className="footer-links-group">
-            <h4>Company</h4>
-            <a href="#home">Home</a><a href="#about">About</a><a href="#services">Services</a>
+          <div className="footer-nav-block">
+            <h5>Company</h5>
+            <a href="#home">Home</a>
+            <a href="#about">About</a>
+            <a href="#services">Services</a>
           </div>
-          <div className="footer-links-group">
-            <h4>Support</h4>
-            <a href="#">Contact</a><a href="#">Reviews</a><a href="#">FAQ</a>
-          </div>
-          <div className="footer-links-group">
-            <h4>Legal</h4>
-            <a href="#">Privacy Policy</a><a href="#">Terms of Service</a>
+          <div className="footer-nav-block">
+            <h5>Support</h5>
+            <a href="#contact">Contact</a>
+            <a href="#">Reviews</a>
+            <a href="#">FAQ</a>
           </div>
         </div>
-        <div className="footer-bottom reveal">
+
+        <div className="footer-bottom-row">
           <p>© 2026 RovioTek. All rights reserved.</p>
-          <div className="footer-socials">
-            <a href="#" title="WhatsApp" target="_blank" rel="noreferrer">
-              <img src={whatsappSvg} alt="WhatsApp" className="social-icon-footer" />
-            </a>
-            <a href="#" title="LinkedIn" target="_blank" rel="noreferrer">
-              <img src={linkedinSvg} alt="LinkedIn" className="social-icon-footer" />
-            </a>
-            <a href="#" title="Facebook" target="_blank" rel="noreferrer">
-              <img src={facebookSvg} alt="Facebook" className="social-icon-footer" />
-            </a>
-            <a href="#" title="Instagram" target="_blank" rel="noreferrer">
-              <img src={instagramSvg} alt="Instagram" className="social-icon-footer" />
-            </a>
+          <div className="footer-socials-row">
+            <Magnetic>
+              <a href="#" title="WhatsApp" className="social-anchor">
+                <img src={whatsappSvg} alt="WhatsApp" className="social-icon" />
+              </a>
+            </Magnetic>
+            <Magnetic>
+              <a href="#" title="LinkedIn" className="social-anchor">
+                <img src={linkedinSvg} alt="LinkedIn" className="social-icon" />
+              </a>
+            </Magnetic>
+            <Magnetic>
+              <a href="#" title="Facebook" className="social-anchor">
+                <img src={facebookSvg} alt="Facebook" className="social-icon" />
+              </a>
+            </Magnetic>
+            <Magnetic>
+              <a href="#" title="Instagram" className="social-anchor">
+                <img src={instagramSvg} alt="Instagram" className="social-icon" />
+              </a>
+            </Magnetic>
           </div>
         </div>
       </footer>
@@ -672,14 +818,15 @@ export default function App() {
                     <h4 className="project-modal-subtitle">Next Steps</h4>
                     <div className="project-actions">
                       {selectedProject.links.map((link, idx) => (
-                        <a 
-                          className={`project-link ${link.primary ? '' : 'ghost'}`} 
-                          href={link.href}
-                          key={idx}
-                          onClick={() => setSelectedProject(null)}
-                        >
-                          {link.text} <span>→</span>
-                        </a>
+                        <Magnetic key={idx}>
+                          <a 
+                            className={`project-link ${link.primary ? '' : 'ghost'}`} 
+                            href={link.href}
+                            onClick={() => setSelectedProject(null)}
+                          >
+                            {link.text} <span>→</span>
+                          </a>
+                        </Magnetic>
                       ))}
                     </div>
                   </div>
