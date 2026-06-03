@@ -17,14 +17,14 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ChevronRight } from "lucide-react";
 
 // Asset Imports
-import logoImg from "./assets/roviotek_logo.png";
-import sandunImg from "./assets/Sandun_Sulakshana.png";
-import tharanaImg from "./assets/Tharana_Hasintha.png";
-import dinukaImg from "./assets/Dinuka_Daksitha.png";
-import nimuthuImg from "./assets/Nimuthu_Sipsara.png";
-import pasinduImg from "./assets/Pasindu_Tharaka.png";
-import kavinduImg from "./assets/Kavindu_Dilhara.png";
-import anuruddhaImg from "./assets/Anuruddha_Shanaka.png";
+import logoImg from "./assets/roviotek_logo.webp";
+import sandunImg from "./assets/Sandun_Sulakshana.webp";
+import tharanaImg from "./assets/Tharana_Hasintha.webp";
+import dinukaImg from "./assets/Dinuka_Daksitha.webp";
+import nimuthuImg from "./assets/Nimuthu_Sipsara.webp";
+import pasinduImg from "./assets/Pasindu_Tharaka.webp";
+import kavinduImg from "./assets/Kavindu_Dilhara.webp";
+import anuruddhaImg from "./assets/Anuruddha_Shanaka.webp";
 
 // Tech stack imports removed
 
@@ -35,9 +35,9 @@ import instagramSvg from "./assets/instagram.svg";
 import facebookSvg from "./assets/facebook.svg";
 
 // Project media imports
-import libriooImg from "./assets/librioo.jpeg";
-import hotelImg from "./assets/hotel_Management_System.png";
-import librarynetImg from "./assets/librarynet.jpeg";
+import libriooImg from "./assets/librioo.webp";
+import hotelImg from "./assets/hotel_Management_System.webp";
+import librarynetImg from "./assets/librarynet.webp";
 import fittyVid from "./assets/fitty.mp4";
 
 const services = [
@@ -232,13 +232,13 @@ function TeamMemberCard({ m, i }) {
 
       <div className="team-socials-row">
         <Magnetic>
-          <a href={m.socials.linkedin || "#"} title="LinkedIn" target="_blank" rel="noreferrer" className="social-anchor">
+          <a href={m.socials.linkedin || "#"} title="LinkedIn" target="_blank" rel="noopener noreferrer" className="social-anchor">
             <img src={linkedinSvg} alt="LinkedIn" className="social-icon" />
           </a>
         </Magnetic>
         {m.socials.facebook && (
           <Magnetic>
-            <a href={m.socials.facebook || "#"} title="Facebook" target="_blank" rel="noreferrer" className="social-anchor">
+            <a href={m.socials.facebook || "#"} title="Facebook" target="_blank" rel="noopener noreferrer" className="social-anchor">
               <img src={facebookSvg} alt="Facebook" className="social-icon" />
             </a>
           </Magnetic>
@@ -267,17 +267,19 @@ export default function App() {
       smoothWheel: true,
     });
 
+    let rafId;
     function raf(time) {
       lenis.raf(time);
-      requestAnimationFrame(raf);
+      rafId = requestAnimationFrame(raf);
     }
-    requestAnimationFrame(raf);
+    rafId = requestAnimationFrame(raf);
 
     const handleScroll = () => setScrolled(window.scrollY > 40);
     window.addEventListener("scroll", handleScroll);
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
+      cancelAnimationFrame(rafId);
       lenis.destroy();
     };
   }, []);
@@ -314,7 +316,7 @@ export default function App() {
 
   // SVGs for Services
   const serviceIcons = [
-    <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="2" style={{ width: "64px", height: "64px", margin: "auto", display: "block" }}>
+    <svg key="srv-0" viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="2" style={{ width: "64px", height: "64px", margin: "auto", display: "block" }}>
       <rect x="15" y="20" width="70" height="46" rx="3" stroke="var(--accent-cyan)" />
       <line x1="10" y1="66" x2="90" y2="66" stroke="var(--accent-cyan)" strokeWidth="4" />
       <rect x="62" y="38" width="20" height="38" rx="3" fill="#09090b" stroke="var(--accent-purple)" strokeWidth="2" />
@@ -326,7 +328,7 @@ export default function App() {
         animate={{ opacity: [0.3, 1, 0.3] }} transition={{ repeat: Infinity, duration: 2, ease: "linear", delay: 0.5 }}
       />
     </svg>,
-    <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="2" style={{ width: "64px", height: "64px", margin: "auto", display: "block" }}>
+    <svg key="srv-1" viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="2" style={{ width: "64px", height: "64px", margin: "auto", display: "block" }}>
       <rect x="15" y="15" width="70" height="70" rx="6" stroke="var(--accent-purple)" />
       <line x1="15" y1="32" x2="85" y2="32" stroke="var(--accent-purple)" />
       <circle cx="23" cy="23" r="2" fill="var(--accent-purple)" />
@@ -342,7 +344,7 @@ export default function App() {
         transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}
       />
     </svg>,
-    <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="2" style={{ width: "64px", height: "64px", margin: "auto", display: "block" }}>
+    <svg key="srv-2" viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="2" style={{ width: "64px", height: "64px", margin: "auto", display: "block" }}>
       <rect x="20" y="80" width="60" height="8" rx="2" stroke="var(--accent-cyan)" fill="rgba(255,255,255,0.05)" />
       <motion.line 
         x1="50" y1="80" x2="40" y2="45" 
@@ -591,9 +593,9 @@ export default function App() {
       <section id="contact" className="contact-redefined">
         <div className="contact-control-panel-grid">
           <div className="contact-left-col">
-            <h2 className="contact-heading-text">LET'S CONNECT.</h2>
+            <h2 className="contact-heading-text">LET&apos;S CONNECT.</h2>
             <p className="contact-desc-text">
-              We're building the future of infrastructure. Reach out to discuss partnerships, support, or career opportunities.
+              We&apos;re building the future of infrastructure. Reach out to discuss partnerships, support, or career opportunities.
             </p>
 
             <div className="telemetry-contacts-list">
@@ -614,12 +616,12 @@ export default function App() {
             <div className="contact-left-footer">
               <div className="contact-socials-row">
                 <Magnetic>
-                  <a href="#" target="_blank" rel="noreferrer" className="social-anchor">
+                  <a href="#contact" className="social-anchor">
                     <img src={linkedinSvg} alt="LinkedIn" className="social-icon" />
                   </a>
                 </Magnetic>
                 <Magnetic>
-                  <a href="#" target="_blank" rel="noreferrer" className="social-anchor">
+                  <a href="#contact" className="social-anchor">
                     <img src={facebookSvg} alt="Facebook" className="social-icon" />
                   </a>
                 </Magnetic>
@@ -634,8 +636,9 @@ export default function App() {
                   <form onSubmit={handleFormSubmit} className="obsidian-form-element">
                     <div className="form-input-row">
                       <div className="form-input-group">
-                        <label>First Name</label>
+                        <label htmlFor="firstName">First Name</label>
                         <input 
+                          id="firstName"
                           type="text" 
                           placeholder="John" 
                           value={firstName}
@@ -644,8 +647,9 @@ export default function App() {
                         />
                       </div>
                       <div className="form-input-group">
-                        <label>Last Name</label>
+                        <label htmlFor="lastName">Last Name</label>
                         <input 
+                          id="lastName"
                           type="text" 
                           placeholder="Doe" 
                           value={lastName}
@@ -656,8 +660,9 @@ export default function App() {
                     </div>
 
                     <div className="form-input-group">
-                      <label>Work Email</label>
+                      <label htmlFor="email">Work Email</label>
                       <input 
+                        id="email"
                         type="email" 
                         placeholder="john@company.com" 
                         value={email}
@@ -667,8 +672,9 @@ export default function App() {
                     </div>
 
                     <div className="form-input-group">
-                      <label>How can we help?</label>
+                      <label htmlFor="message">How can we help?</label>
                       <textarea 
+                        id="message"
                         placeholder="Tell us about your project..." 
                         rows="4" 
                         value={message}

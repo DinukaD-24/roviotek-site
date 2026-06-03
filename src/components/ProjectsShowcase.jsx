@@ -1,3 +1,4 @@
+import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import Magnetic from "../Magnetic";
 
@@ -35,6 +36,45 @@ function PhoneMockup({ children }) {
           <div className="phone-screen-shine" />
         </div>
       </div>
+    </div>
+  );
+}
+
+// LazyVideo component using IntersectionObserver to prevent preloading heavy assets
+function LazyVideo({ src, className, ...props }) {
+  const [inView, setInView] = useState(false);
+  const ref = useRef(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setInView(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "200px" } // load when within 200px of viewport
+    );
+
+    if (ref.current) {
+      observer.observe(ref.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div ref={ref} className={className} style={{ width: "100%", height: "100%" }}>
+      {inView ? (
+        <video
+          src={src}
+          className={className}
+          preload="none"
+          {...props}
+        />
+      ) : (
+        <div style={{ width: "100%", height: "100%", background: "#050508" }} />
+      )}
     </div>
   );
 }
@@ -111,7 +151,7 @@ export default function ProjectsShowcase({ projects, setSelectedProject }) {
               >
                 {project.mediaType === "video" ? (
                   <PhoneMockup>
-                    <video
+                    <LazyVideo
                       src={project.mediaSrc}
                       className="project-mockup-media-element"
                       autoPlay
