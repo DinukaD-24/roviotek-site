@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import "./index.css";
+import emailjs from "@emailjs/browser";
 
 // Redesign Component Imports
 import TechGrid from './TechGrid';
@@ -307,12 +308,30 @@ export default function App() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
 
-  const handleFormSubmit = (e) => {
-    e.preventDefault();
-    setTimeout(() => {
-      setFormSubmitted(true);
-    }, 850);
-  };
+const handleFormSubmit = async (e) => {
+  e.preventDefault();
+
+  try {
+    await emailjs.send(
+      "service_wnyjw1m",
+      "template_2sw18cl",
+      {
+        firstName,
+        lastName,
+        email,
+        message,
+      },
+      {
+        publicKey: "gCylOMsxry5crJNjX",
+      }
+    );
+
+    setFormSubmitted(true);
+  } catch (error) {
+    console.error("Email sending failed:", error);
+    alert("Failed to send your message. Please try again.");
+  }
+};
 
   // SVGs for Services
   const serviceIcons = [
