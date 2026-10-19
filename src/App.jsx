@@ -39,7 +39,7 @@ import facebookSvg from "./assets/facebook.svg";
 import libriooImg from "./assets/librioo.webp";
 import hotelImg from "./assets/hotel_Management_System.webp";
 import librarynetImg from "./assets/librarynet.webp";
-import fittyVid from "./assets/fitty.mp4";
+import fittyVid from "./assets/fittyU.mp4";
 
 const services = [
   {
