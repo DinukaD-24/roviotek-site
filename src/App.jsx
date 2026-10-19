@@ -61,7 +61,7 @@ const services = [
 const team = [
   {
     name: "Sandun Sulakshana",
-    role: "Founder, Backend Developer",
+    role: "Founder, Full Stack Developer",
     avatar: sandunImg,
     socials: { linkedin: "https://www.linkedin.com/in/sandun-sulakshana-465188328/", github: "https://github.com/sandun80"}
   },
@@ -73,7 +73,7 @@ const team = [
   },
   {
     name: "Dinuka Daksitha",
-    role: "Frontend Developer",
+    role: "Full Stack Developer",
     avatar: dinukaImg,
     socials: { linkedin: "https://www.linkedin.com/in/dinuka-ilangakoon-3ab81a335/", facebook: "https://facebook.com", instagram: "https://instagram.com" }
   },
@@ -85,19 +85,19 @@ const team = [
   },
   {
     name: "Pasindu Tharaka",
-    role: "Frontend Developer",
+    role: "Full Stack Developer",
     avatar: pasinduImg,
     socials: { linkedin: "https://www.linkedin.com/in/pasindu-tharaka-1a660a333/", facebook: "https://facebook.com", instagram: "https://instagram.com" }
   },
   {
     name: "Kavindu Dilhara",
-    role: "Backend Developer",
+    role: "Full Stack Developer",
     avatar: kavinduImg,
     socials: { linkedin: "https://www.linkedin.com/in/kavindu-jayasinghe-877174335/", facebook: "https://facebook.com", instagram: "https://instagram.com" }
   },
   {
     name: "Anuruddha Shanaka",
-    role: "UI Designer",
+    role: "UI Designer, Full Stack Developer",
     avatar: anuruddhaImg,
     socials: { linkedin: "https://www.linkedin.com/in/anuruddha-shanaka-687056380/", facebook: "https://facebook.com", instagram: "https://instagram.com" }
   }
@@ -746,8 +746,6 @@ const handleFormSubmit = async (e) => {
           <div className="footer-nav-block">
             <h5>Support</h5>
             <a href="#contact">Contact</a>
-            <a href="#">Reviews</a>
-            <a href="#">FAQ</a>
           </div>
         </div>
 
@@ -755,22 +753,22 @@ const handleFormSubmit = async (e) => {
           <p>© 2026 RovioTek. All rights reserved.</p>
           <div className="footer-socials-row">
             <Magnetic>
-              <a href="#" title="WhatsApp" className="social-anchor">
+              <a href="https://wa.me/94726252526" title="WhatsApp" className="social-anchor">
                 <img src={whatsappSvg} alt="WhatsApp" className="social-icon" />
               </a>
             </Magnetic>
             <Magnetic>
-              <a href="#" title="LinkedIn" className="social-anchor">
+              <a href="https://www.linkedin.com/company/roviotek-solutions/" title="LinkedIn" className="social-anchor">
                 <img src={linkedinSvg} alt="LinkedIn" className="social-icon" />
               </a>
             </Magnetic>
             <Magnetic>
-              <a href="#" title="Facebook" className="social-anchor">
+              <a href="https://www.facebook.com/profile.php?id=61584473162705" title="Facebook" className="social-anchor">
                 <img src={facebookSvg} alt="Facebook" className="social-icon" />
               </a>
             </Magnetic>
             <Magnetic>
-              <a href="#" title="Instagram" className="social-anchor">
+              <a href="https://www.instagram.com/roviotek/" title="Instagram" className="social-anchor">
                 <img src={instagramSvg} alt="Instagram" className="social-icon" />
               </a>
             </Magnetic>
