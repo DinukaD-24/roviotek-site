@@ -63,43 +63,43 @@ const team = [
     name: "Sandun Sulakshana",
     role: "Founder, Full Stack Developer",
     avatar: sandunImg,
-    socials: { linkedin: "https://www.linkedin.com/in/sandun-sulakshana-465188328/", github: "https://github.com/sandun80"}
+    socials: { linkedin: "https://www.linkedin.com/in/sandun-sulakshana-465188328/"}
   },
   {
     name: "Tharana Hasintha",
     role: "Project Manager, Full Stack Developer",
     avatar: tharanaImg,
-    socials: { linkedin: "https://www.linkedin.com/in/tharanahasintha/", facebook: "https://facebook.com", instagram: "https://instagram.com" }
+    socials: { linkedin: "https://www.linkedin.com/in/tharanahasintha/" }
   },
   {
     name: "Dinuka Daksitha",
     role: "Full Stack Developer",
     avatar: dinukaImg,
-    socials: { linkedin: "https://www.linkedin.com/in/dinuka-ilangakoon-3ab81a335/", facebook: "https://facebook.com", instagram: "https://instagram.com" }
+    socials: { linkedin: "https://www.linkedin.com/in/dinuka-ilangakoon-3ab81a335/" }
   },
   {
     name: "Nimuthu Sipsara",
     role: "IOT Developer, AI Integration Developer",
     avatar: nimuthuImg,
-    socials: { linkedin: "https://www.linkedin.com/in/nimuthusw/", facebook: "https://facebook.com", instagram: "https://instagram.com" }
+    socials: { linkedin: "https://www.linkedin.com/in/nimuthusw/" }
   },
   {
     name: "Pasindu Tharaka",
     role: "Full Stack Developer",
     avatar: pasinduImg,
-    socials: { linkedin: "https://www.linkedin.com/in/pasindu-tharaka-1a660a333/", facebook: "https://facebook.com", instagram: "https://instagram.com" }
+    socials: { linkedin: "https://www.linkedin.com/in/pasindu-tharaka-1a660a333/"}
   },
   {
     name: "Kavindu Dilhara",
     role: "Full Stack Developer",
     avatar: kavinduImg,
-    socials: { linkedin: "https://www.linkedin.com/in/kavindu-jayasinghe-877174335/", facebook: "https://facebook.com", instagram: "https://instagram.com" }
+    socials: { linkedin: "https://www.linkedin.com/in/kavindu-jayasinghe-877174335/"}
   },
   {
     name: "Anuruddha Shanaka",
     role: "UI Designer, Full Stack Developer",
     avatar: anuruddhaImg,
-    socials: { linkedin: "https://www.linkedin.com/in/anuruddha-shanaka-687056380/", facebook: "https://facebook.com", instagram: "https://instagram.com" }
+    socials: { linkedin: "https://www.linkedin.com/in/anuruddha-shanaka-687056380/" }
   }
 ];
 
@@ -386,6 +386,7 @@ const handleFormSubmit = async (e) => {
       <circle cx="65" cy="30" r="3" fill="var(--accent-cyan)" />
     </svg>
   ];
+  
 
   return (
     <>
@@ -663,12 +664,12 @@ const handleFormSubmit = async (e) => {
             <div className="contact-left-footer">
               <div className="contact-socials-row">
                 <Magnetic>
-                  <a href="#contact" className="social-anchor">
+                  <a href="https://www.linkedin.com/company/roviotek-solutions/" className="social-anchor">
                     <img src={linkedinSvg} alt="LinkedIn" className="social-icon" />
                   </a>
                 </Magnetic>
                 <Magnetic>
-                  <a href="#contact" className="social-anchor">
+                  <a href="https://www.facebook.com/profile.php?id=61584473162705" className="social-anchor">
                     <img src={facebookSvg} alt="Facebook" className="social-icon" />
                   </a>
                 </Magnetic>
@@ -887,6 +888,7 @@ const handleFormSubmit = async (e) => {
           </div>
         </div>
       )}
+      
     </>
   );
 }
