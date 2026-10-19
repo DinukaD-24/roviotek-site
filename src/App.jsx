@@ -252,6 +252,7 @@ function TeamMemberCard({ m, i }) {
 export default function App() {
   const [scrolled, setScrolled] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   // Form states
   const [firstName, setFirstName] = useState("");
@@ -393,20 +394,47 @@ const handleFormSubmit = async (e) => {
       <TechGrid />
 
       {/* Nav */}
-      <nav className={scrolled ? "scrolled" : ""}>
-        <a href="#home" className="nav-logo">
+
+      <nav className={`${scrolled ? "scrolled" : ""} ${menuOpen ? "mobile-menu-open" : ""}`}>
+        <a
+          href="#home"
+          className="nav-logo"
+          onClick={() => setMenuOpen(false)}
+        >
           <img src={logoImg} alt="RovioTek Logo" className="nav-logo-img" />
         </a>
-        <div className="nav-links">
-          <a href="#home">Home</a>
-          <a href="#about">About Us</a>
-          <a href="#services">Our Services</a>
-          <a href="#projects">Projects</a>
-          <a href="#tech-stack">Tech Stack</a>
-          <a href="#team">Our Team</a>
-          <a href="#contact">Contact</a>
+
+        <div className={`nav-links ${menuOpen ? "nav-links-open" : ""}`}>
+          {[
+            ["Home", "#home"],
+            ["About Us", "#about"],
+            ["Our Services", "#services"],
+            ["Projects", "#projects"],
+            ["Tech Stack", "#tech-stack"],
+            ["Our Team", "#team"],
+            ["Contact", "#contact"],
+          ].map(([label, href]) => (
+            <a
+              key={href}
+              href={href}
+              onClick={() => setMenuOpen(false)}
+            >
+              {label}
+            </a>
+          ))}
         </div>
+
+        <button
+          type="button"
+          className="mobile-menu-toggle"
+          onClick={() => setMenuOpen((open) => !open)}
+          aria-label={menuOpen ? "Close navigation menu" : "Open navigation menu"}
+          aria-expanded={menuOpen}
+        >
+          {menuOpen ? "✕" : "☰"}
+        </button>
       </nav>
+
 
       {/* ── HERO SECTION v2 — Premium Showcase ── */}
       <section className="hero-v2" id="home">
